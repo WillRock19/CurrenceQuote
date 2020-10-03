@@ -1,6 +1,15 @@
 (ns conversor.core
-  (:require [clojure.tools.cli :refer [parse-opts]])
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [clj-http.client :as http])
   (:gen-class))
+
+(def chave-api "")
+
+(def api-url "https://free.currencyconverterapi.com/api/v6/convert")
+
+(defn parametrizar-moedas 
+  [de para]
+  (str de "_" para))
 
 
 (def opcoes-aceitaveis [
@@ -13,5 +22,8 @@
   [& args]
   (println "Iniciando processamento...")
   (println "Temos" (count args) "argumentos.")
-  (let [estrutura (parse-opts args opcoes-aceitaveis)]
-    (println "Opções: " (:options estrutura))))
+  (let [estrutura (parse-opts args opcoes-aceitaveis)
+        {:keys [de para]} (:options estrutura)]
+    (prn "Opções:"  (:options estrutura))
+    (prn "Cotação:" (http/get api-url {:query-params { "q" (parametrizar-moedas de para) 
+                                                       "apiKey" chave-api }}))))
