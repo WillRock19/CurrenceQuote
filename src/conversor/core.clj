@@ -3,7 +3,7 @@
             [clj-http.client :as http])
   (:gen-class))
 
-(def chave-api "")
+(def chave-api (System/getenv "CHAVE_API"))
 
 (def api-url "https://free.currencyconverterapi.com/api/v6/convert")
 
@@ -25,5 +25,4 @@
   (let [estrutura (parse-opts args opcoes-aceitaveis)
         {:keys [de para]} (:options estrutura)]
     (prn "Opções:"  (:options estrutura))
-    (prn "Cotação:" (http/get api-url {:query-params { "q" (parametrizar-moedas de para) 
-                                                       "apiKey" chave-api }}))))
+    (prn "Chave da api:" chave-api)))
