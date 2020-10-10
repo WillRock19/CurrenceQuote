@@ -3,7 +3,7 @@
               [clj-http.client :as http]))
 
 
-(def chave-api (System/getenv "CHAVE_API")) ;;3fa0891ce6d544690e06
+(def chave-api (System/getenv "CHAVE_API"))
 
 (def api-url "https://free.currencyconverterapi.com/api/v6/convert")
 
