@@ -1,9 +1,10 @@
 (ns conversor.core
   (:require [clojure.tools.cli :refer [parse-opts]]
+            [cheshire.core :refer [parse-string]]
             [clj-http.client :as http])
   (:gen-class))
 
-(def chave-api (System/getenv "CHAVE_API"))
+(def chave-api (System/getenv "CHAVE_API")) ;;3fa0891ce6d544690e06
 
 (def api-url "https://free.currencyconverterapi.com/api/v6/convert")
 
