@@ -18,6 +18,14 @@
   ["-p", "--para moeda desejada", "moeda a qual queremos efetuar a conversão"]
 ])
 
+(defn arredondar
+  "Round a double to the given precision (number of significant digits)"
+  ([numero]
+    (arredondar numero 2))
+  ([numero precision]
+  (let [factor (Math/pow 10 precision)]
+    (/ (Math/round (* numero factor)) factor))))
+
 
 (defn obter-cotacao [de para]
   (let [moedas-formato-api (parametrizar-moedas de para)]
@@ -26,7 +34,7 @@
         (get-in ["results" moedas-formato-api "val"]))))
 
 (defn formata-resposta [valor-cotacao moeda-original moeda-convertida]
-  (str "1 " moeda-original " equivale a " valor-cotacao " em " moeda-convertida))
+  (str "1 " moeda-original " equivale a " (arredondar valor-cotacao) " em " moeda-convertida))
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -35,7 +43,7 @@
   (println "Temos" (count args) "argumentos.")
   (let [estrutura (parse-opts args opcoes-aceitaveis)
         {:keys [de para]} (:options estrutura)]
-    (prn "Opções:"  (:options estrutura))
+    (prn "Opções escolhidas:"  (:options estrutura))
     (-> (obter-cotacao de para)
         (formata-resposta de para)
         (prn))))
